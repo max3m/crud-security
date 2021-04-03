@@ -1,14 +1,24 @@
 package web.model;
 
+import javax.persistence.*;
 import lombok.Data;
 
+@Entity
 @Data
+@Table
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    String name;
-    int age;
-    String email;
 
+    @Column
+    String name;
+
+    @Column
+    int age;
+
+    @Column
+    String email;
 
     public User() { }
 

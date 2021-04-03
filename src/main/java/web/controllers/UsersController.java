@@ -19,18 +19,18 @@ public class UsersController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("users", userService.index());
-        return "/users/index";
+        return "index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.show(id));
-        return "users/show";
+        return "show";
     }
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
-        return "users/new";
+        return "new";
     }
 
     @PostMapping("")
@@ -42,7 +42,7 @@ public class UsersController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.show(id));
-        return "users/edit";
+        return "edit";
     }
 
     @PatchMapping("/{id}")
