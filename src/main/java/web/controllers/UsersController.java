@@ -1,59 +1,50 @@
 package web.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
 import web.service.UserService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/")
 public class UsersController {
+    private final UserService userService;
 
-    private UserService userService;
-
+    @Autowired
     public UsersController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.index());
-        return "index";
+    @GetMapping("/user")
+    public ModelAndView showUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.show(id));
-        return "show";
+    @GetMapping("/hello")
+    public String printWelcome(ModelMap model) {
+        List<String> messages = new ArrayList<>();
+        messages.add("Hello!");
+        messages.add("I'm Spring MVC-SECURITY application");
+        messages.add("5.2.0 version by sep'19 ");
+        model.addAttribute("messages", messages);
+        return "hello";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "new";
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
-    @PostMapping("")
-    public String create(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/users";
-    }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.show(id));
-        return "edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userService.update(id, user);
-        return "redirect:/users";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        userService.delete(id);
-        return "redirect:/users";
-    }
 }

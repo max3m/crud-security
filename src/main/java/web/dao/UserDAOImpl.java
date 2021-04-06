@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<User> index() {
+    public List<User> allUsers() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
@@ -27,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public User show(Long id) {
+    public User getById(Long id) {
         return entityManager.find(User.class, id);
     }
 
@@ -39,7 +40,20 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        entityManager.remove(entityManager.find(User.class, id));
+    public void delete(User user) {
+        User managed = entityManager.merge(user);
+        entityManager.remove(managed);
+    }
+
+    @Override
+    public User getUserByName(String username) {
+        try {
+            User user = entityManager.createQuery("SELECT u FROM User u where u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+            return user;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
