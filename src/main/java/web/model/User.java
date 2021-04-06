@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
     public User() { }
 
-    public User(String username, String name, String lastname, byte age, String email) {
+    public User(String username, String name, String email, byte age) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -131,11 +131,11 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return age == user.age && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(name, user.name) && Objects.equals(email, user.email);
+        return age == user.age && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(roles, user.roles) && Objects.equals(name, user.name) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, roles, name, age, email);
+        return Objects.hash(id, username, roles, name, age, email);
     }
 }

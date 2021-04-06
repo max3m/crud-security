@@ -16,11 +16,11 @@ import web.config.handler.LoginSuccessHandler;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
         auth.userDetailsService(userDetailsService);
     }
 
@@ -59,6 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasAuthority('ADMIN')")
                 .antMatchers("/user/**").access("hasAuthority('USER')")
                 .anyRequest().authenticated();
+    }
+
+    @Autowired
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean

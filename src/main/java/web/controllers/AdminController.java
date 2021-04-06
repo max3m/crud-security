@@ -21,7 +21,6 @@ public class AdminController {
     private final UserService userService;
     private final RoleDAO roleDAO;
 
-    @Autowired
     PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -106,5 +105,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-
+    @Autowired
+    public void setbCryptPasswordEncoder(PasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 }

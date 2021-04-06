@@ -15,12 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class UsersController {
-    private final UserService userService;
-
-    @Autowired
-    public UsersController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/user")
     public ModelAndView showUser() {
@@ -46,5 +41,8 @@ public class UsersController {
         return "login";
     }
 
-
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

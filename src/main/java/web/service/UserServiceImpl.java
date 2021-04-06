@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserDAO userDAO;
     private RoleDAO roleDAO;
 
-    @Autowired
     PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -28,6 +27,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     public void setRoleDAO(RoleDAO roleDAO) {
         this.roleDAO = roleDAO;
+    }
+
+    @Autowired
+    public void setbCryptPasswordEncoder(PasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
