@@ -53,12 +53,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adminEditUser");
         modelAndView.addObject("user", user);
-        HashSet<Role> rolesSet = new HashSet<>();
-        Role role_admin = roleDAO.createRoleIfNotFound("ADMIN", 1L);
-        Role role_user = roleDAO.createRoleIfNotFound("USER", 2L);
-        rolesSet.add(role_admin);
-        rolesSet.add(role_user);
-        modelAndView.addObject("rolelist", rolesSet);
+        modelAndView.addObject("rolelist", roleDAO.getRoleSet());
         return modelAndView;
     }
 

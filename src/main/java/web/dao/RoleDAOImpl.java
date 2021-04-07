@@ -7,24 +7,24 @@ import web.model.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Transactional
-public class RoleDAOImpl implements RoleDAO{
+public class RoleDAOImpl implements RoleDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
     public RoleDAOImpl() {
     }
 
-    @Transactional
     @Override
     public void save(Role role) {
         Role managed = entityManager.merge(role);
         entityManager.persist(managed);
     }
 
-    @Transactional
     @Override
     public void delete(Role role) {
         Role managed = entityManager.merge(role);
@@ -48,7 +48,7 @@ public class RoleDAOImpl implements RoleDAO{
         }
     }
 
-    @Transactional
+    @Override
     public Role createRoleIfNotFound(String name, long id) {
         Role role = getRoleByName(name);
         if (role == null) {
@@ -56,6 +56,13 @@ public class RoleDAOImpl implements RoleDAO{
             save(role);
         }
         return role;
+    }
+
+    public Set<Role> getRoleSet() {
+        return new HashSet<Role>() {{
+            add(createRoleIfNotFound("ADMIN", 1L));
+            add(createRoleIfNotFound("USER", 2L));
+        }};
     }
 
 }
