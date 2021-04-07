@@ -16,8 +16,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private UserDAO userDAO;
     private RoleDAO roleDAO;
-
-    PasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {

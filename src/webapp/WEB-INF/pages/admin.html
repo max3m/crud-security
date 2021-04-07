@@ -21,11 +21,10 @@
         <td>Action</td>
     </tr>
     <tr th:each="user : ${usersList}">
-    <tr>
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
-        <td th:text="${user.name}"></td>
         <td th:password="${user.password}"></td>
+        <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.age}"></td>
         <td>

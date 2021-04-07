@@ -16,20 +16,19 @@ import java.util.Set;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
     private final RoleDAO roleDAO;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
-    PasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public AdminController(UserService userService, RoleDAO roleDAO) {
+    public AdminController(UserService userService, RoleDAO roleDAO, PasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.roleDAO = roleDAO;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @GetMapping("/admin")
+    @GetMapping
     public ModelAndView allUsers() {
         List<User> users = userService.allUsers();
         ModelAndView modelAndView = new ModelAndView();
@@ -38,20 +37,19 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/admin/add")
+    @GetMapping(value = "/add")
     public String addPage() {
         return "addUser";
     }
 
-    @PostMapping(value = "/admin/add")
+    @PostMapping(value = "/add")
     public String addUser(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/admin/edit/{id}")
-    public ModelAndView editPage(@PathVariable("id") long id) {
-        User user = userService.getById(id);
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView editPage(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adminEditUser");
         modelAndView.addObject("user", user);
@@ -64,7 +62,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/admin/edit")
+    @PostMapping(value = "/edit")
     public String editUser(
             @ModelAttribute("id") Long id,
             @ModelAttribute("username") String username,
@@ -98,15 +96,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/admin/delete/{id}")
+    @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         User user = userService.getById(id);
         userService.delete(user);
         return "redirect:/admin";
-    }
-
-    @Autowired
-    public void setbCryptPasswordEncoder(PasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 }

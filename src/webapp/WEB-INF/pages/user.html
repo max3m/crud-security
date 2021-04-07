@@ -6,23 +6,23 @@
     <title>Your profile</title>
 </head>
 <body>
-<table border="1">
+<table border="1" cellpadding="10">
     <thead>
     <tr>Your profile</tr>
     </thead>
     <tbody>
     <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>password</th>
-        <th>lastname</th>
-        <th>age</th>
-        <th>city</th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
     </tr>
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
-    <td th:text="${user.name}"></td>
     <td th:password="${user.password}"></td>
+    <td th:text="${user.name}"></td>
     <td th:text="${user.email}"></td>
     <td th:text="${user.age}"></td>
     </tbody>
