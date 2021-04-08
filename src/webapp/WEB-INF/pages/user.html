@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,25 +10,36 @@
 <body>
 <table border="1" cellpadding="10">
     <thead>
-    <tr>Your profile</tr>
+    <tr>User</tr>
     </thead>
     <tbody>
     <tr>
         <th>ID</th>
         <th>Username</th>
         <th>Password</th>
+        <th>Roles</th>
         <th>Name</th>
         <th>Email</th>
         <th>Age</th>
     </tr>
-    <td th:text="'***'"></td>
+    <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td th:password="${user.password}" th:text="'********'"></td>
+    <td th:text="${user.roles}"></td>
     <td th:text="${user.name}"></td>
     <td th:text="${user.email}"></td>
     <td th:text="${user.age}"></td>
     </tbody>
 </table>
+<br/>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin/{id}/edit(id=${user.id})}">Edit user</a>
+    <p>
+        <form th:method="DELETE" th:action="@{'/admin/'+${user.id}}">
+        <input type="submit" value="Delete user"/>
+    </form>
+    </p>
+</div>
 <p>
 <form method="post" th:action="@{/logout}" >
     <input type="submit" value="Logout"/>

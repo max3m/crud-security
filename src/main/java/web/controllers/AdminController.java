@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import web.dao.RoleDAO;
 import web.model.Role;
 import web.model.User;
@@ -47,7 +46,7 @@ public class AdminController {
     @GetMapping("/{id}")
     public String showUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getById(id));
-        return "show";
+        return "user";
     }
 
     @GetMapping("/{id}/edit")
