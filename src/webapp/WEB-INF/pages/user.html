@@ -14,25 +14,33 @@
     </thead>
     <tbody>
     <tr>
-        <th>ID</th>
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <th>ID</th>
+        </div>
         <th>Username</th>
         <th>Password</th>
-        <th>Roles</th>
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <th>Roles</th>
+        </div>
         <th>Name</th>
         <th>Email</th>
         <th>Age</th>
     </tr>
-    <td th:text="${user.id}"></td>
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <td th:text="${user.id}"></td>
+    </div>
     <td th:text="${user.username}"></td>
     <td th:password="${user.password}" th:text="'********'"></td>
-    <td th:text="${user.roles}"></td>
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <td th:text="${user.roles}"></td>
+    </div>
     <td th:text="${user.name}"></td>
     <td th:text="${user.email}"></td>
     <td th:text="${user.age}"></td>
     </tbody>
 </table>
 <br/>
-<div sec:authorize="hasRole('ADMIN')">
+<div sec:authorize="hasAuthority('ADMIN')">
     <a th:href="@{/admin/{id}/edit(id=${user.id})}">Edit user</a>
     <p>
         <form th:method="DELETE" th:action="@{'/admin/'+${user.id}}">

@@ -38,7 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setEnableSpringELCompiler(true);
-        templateEngine.addDialect(new SpringSecurityDialect());//обязательно для <div sec:authorize="hasRole('ADMIN')"> во view
+        templateEngine.addDialect(new SpringSecurityDialect());//обязательно для <div sec:authorize="hasAuthority('ADMIN')"> во view
         return templateEngine;
     }
 
