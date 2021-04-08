@@ -1,7 +1,5 @@
 package web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import web.model.User;
 import web.service.UserService;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -53,16 +50,29 @@ public class AdminController {
         return "show";
     }
 
-    @GetMapping(value = "/edit/{id}")
+    @GetMapping("/{id}/edit")
+    public String editPage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        model.addAttribute("rolesList", roleDAO.getRoleSet());
+        return "edit";
+    }
+
+/*    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("user") User user) {
+        userService.update(user);
+        return "redirect:/admin";
+    }*/
+
+    /*@GetMapping(value = "/edit/{id}")
     public ModelAndView editPage(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("adminEditUser");
+        modelAndView.setViewName("adminEdit");
         modelAndView.addObject("user", user);
         modelAndView.addObject("rolelist", roleDAO.getRoleSet());
         return modelAndView;
-    }
+    }*/
 
-    @PostMapping(value = "/edit")
+    @PostMapping(value = "/{id}")
     public String editUser(
             @ModelAttribute("id") Long id,
             @ModelAttribute("username") String username,
@@ -96,10 +106,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/delete/{id}")
+    /*@GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         User user = userService.getById(id);
         userService.delete(user);
         return "redirect:/admin";
-    }
+    }*/
 }

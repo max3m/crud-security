@@ -12,11 +12,6 @@ import web.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UsersController {
-    private final UserService userService;
-
-    public UsersController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public ModelAndView showCurrentUser() {

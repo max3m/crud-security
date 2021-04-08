@@ -30,9 +30,9 @@
     </tbody>
 </table>
 <br/>
-<a th:href="@{/admin/${user.id}/edit}">Edit user</a>
+<a th:href="@{/admin/{id}/edit(id=${user.id})}">Edit user</a>
 <p>
-    <form th:method="DELETE" th:action="@{/admin/${user.id}}" >
+    <form th:method="DELETE" th:action="@{'/admin/'+${user.id}}" >
     <input type="submit" value="Delete user"/>
 </form>
 </p><p>
