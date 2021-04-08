@@ -1,8 +1,10 @@
 package web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import web.dao.RoleDAO;
@@ -29,23 +31,26 @@ public class AdminController {
     }
 
     @GetMapping
-    public ModelAndView allUsers() {
-        List<User> users = userService.allUsers();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin");
-        modelAndView.addObject("usersList", users);
-        return modelAndView;
+    public String allUsers(Model model) {
+        model.addAttribute("allUsersList", userService.allUsers());
+        return "admin";
     }
 
-    @GetMapping(value = "/add")
-    public String addPage() {
-        return "addUser";
+    @GetMapping(value = "/new")
+    public String newUserPage(@ModelAttribute("user") User user) {
+        return "new";
     }
 
-    @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute("user") User user) {
+    @PostMapping(value = "")
+    public String newUserPost(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        return "show";
     }
 
     @GetMapping(value = "/edit/{id}")

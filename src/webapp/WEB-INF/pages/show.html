@@ -8,26 +8,34 @@
 <body>
 <table border="1" cellpadding="10">
     <thead>
-    <tr>Your profile</tr>
+    <tr>User</tr>
     </thead>
     <tbody>
     <tr>
         <th>ID</th>
         <th>Username</th>
         <th>Password</th>
+        <th>Roles</th>
         <th>Name</th>
         <th>Email</th>
         <th>Age</th>
     </tr>
-    <td th:text="***"></td>
+    <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td th:password="${user.password}" th:text="'********'"></td>
+    <td th:text="${user.roles}"></td>
     <td th:text="${user.name}"></td>
     <td th:text="${user.email}"></td>
     <td th:text="${user.age}"></td>
     </tbody>
 </table>
+<br/>
+<a th:href="@{/admin/${user.id}/edit}">Edit user</a>
 <p>
+    <form th:method="DELETE" th:action="@{/admin/${user.id}}" >
+    <input type="submit" value="Delete user"/>
+</form>
+</p><p>
 <form method="post" th:action="@{/logout}" >
     <input type="submit" value="Logout"/>
 </form>

@@ -19,7 +19,7 @@ public class UsersController {
     }
 
     @GetMapping
-    public ModelAndView showUser() {
+    public ModelAndView showCurrentUser() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user");
