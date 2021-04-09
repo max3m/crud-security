@@ -2,10 +2,10 @@ package web.dao;
 
 import web.model.User;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserDAO {
-    Set<User> allUsers();
+    List<User> allUsers();
     User getById(Long id);
     void save(User user);
     void update(User user);

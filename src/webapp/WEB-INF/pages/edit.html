@@ -26,7 +26,7 @@
 
     <ul>
         <li th:each="role : ${rolesList}">
-            <input type="checkbox" name="roles" th:field="*{roles}" th:value="${role}"
+            <input type="checkbox" name="selectedRoles" th:value="${role}"
                    th:text="${role.name}"
                    th:checked="${#lists.contains(user.roles, role)}"/>
         </li>
@@ -37,7 +37,7 @@
 
 </form>
 <p>
-<form method="post" th:action="@{/logout}" >
+<form method="POST" th:action="@{/logout}" >
     <input type="submit" value="Logout"/>
 </form>
 </body>

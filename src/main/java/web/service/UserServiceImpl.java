@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import web.dao.RoleDAO;
 import web.dao.UserDAO;
 import web.model.User;
-
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -35,7 +33,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Set<User> allUsers() {
+    public List<User> allUsers() {
         return userDAO.allUsers();
     }
 
@@ -45,13 +43,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user, String[] roles) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
         userDAO.save(user);
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user, String[] roles) {
+        if (!user.getPassword().isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
         userDAO.update(user);
     }
 

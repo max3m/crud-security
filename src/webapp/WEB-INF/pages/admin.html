@@ -18,7 +18,7 @@
         <td>Name</td>
         <td>Email</td>
         <td>Age</td>
-        <td>Action</td>
+        <td>Actions</td>
     </tr>
     <tr th:each="user : ${allUsersList}">
         <td th:text="${user.id}"></td>
@@ -30,16 +30,17 @@
         <td>
             <a th:href="@{'/admin/'+${user.id}}">Show</a>
             <a th:href="@{/admin/{id}/edit(id=${user.id})}">Edit</a>
-<!--
-            <a th:href="@{'/admin/delete/'+${user.id}}">Delete</a>
--->
+            <form th:method="DELETE" th:action="@{'/admin/'+${user.id}}">
+                <input type="submit" value="Delete"/>
+            </form><br/>
         </td>
     </tr>
     </tbody>
 </table>
 <br/>
-<a th:href="@{'/admin/new'}">Add new user</a>
-<p>
+<form th:method="GET" th:action="@{'/admin/new'}">
+    <input type="submit" value="Create new user"/>
+</form><p>
 <form method="post" th:action="@{/logout}" >
     <input type="submit" value="Logout"/>
 </form>

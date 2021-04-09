@@ -4,13 +4,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import web.dao.RoleDAO;
-import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -33,13 +32,20 @@ public class AdminController {
     }
 
     @GetMapping(value = "/new")
-    public String newUserPage(@ModelAttribute("user") User user) {
-        return "new";
+    public ModelAndView newUserPage(/*@ModelAttribute("user") User user, Model model*/) {
+        /*model.addAttribute("rolesList", roleDAO.getRoleSet());
+        return "new";*/
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("new");
+        modelAndView.addObject("user", new User());
+        modelAndView.addObject("rolesList", roleDAO.getRoleSet());
+        return modelAndView;
     }
 
     @PostMapping(value = "")
-    public String newUserPost(@ModelAttribute("user") User user) {
-        userService.save(user);
+    public String newUserPost(@ModelAttribute("user") User user, HttpServletRequest req) {
+        String[] selectedRoles = req.getParameterValues("roles");
+        userService.save(user, selectedRoles);
         return "redirect:/admin";
     }
 
@@ -57,62 +63,11 @@ public class AdminController {
     }
 
     @PatchMapping(value = "/{id}")
-    public String editUserPatch(
-            @ModelAttribute("id") Long id,
-            @ModelAttribute("username") String username,
-            @ModelAttribute("name") String name,
-            @ModelAttribute("password") String password,
-            @ModelAttribute("email") String email,
-            @ModelAttribute("age") byte age,
-            @RequestParam("roles") String[] roles
-    ) {
-        User user = userService.getById(id);
-        user.setName(username);
-        user.setName(name);
-        user.setAge(age);
-        user.setEmail(email);
-        if (!password.isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(password));
-        }
-        user.setRoles(roleDAO.getRoleSetForUser(roles));
-        userService.update(user);
+    public String editUserPatch(@ModelAttribute("user") User user, HttpServletRequest req) {
+        String[] selectedRoles = req.getParameterValues("selectedRoles");
+        userService.update(user, selectedRoles);
         return "redirect:/admin";
     }
-    /*@PatchMapping(value = "/{id}")
-    public String editUserPatch(
-            @ModelAttribute("id") Long id,
-            @ModelAttribute("username") String username,
-            @ModelAttribute("name") String name,
-            @ModelAttribute("password") String password,
-            @ModelAttribute("email") String email,
-            @ModelAttribute("age") byte age,
-            @RequestParam("roles") String[] roles
-    ) {
-        User user = userService.getById(id);
-        user.setName(username);
-        user.setName(name);
-        user.setAge(age);
-        user.setEmail(email);
-        if (!password.isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(password));
-        }
-        System.out.println(user);
-        System.out.println(roles);
-        Set<Role> rolesSet = new HashSet<>();
-        for (String st : roles) {
-            if (st.equals("ADMIN")) {
-                Role role_admin = roleDAO.createRoleIfNotFound("ADMIN", 1L);
-                rolesSet.add(role_admin);
-            }
-            if (st.equals("USER")) {
-                Role role_user = roleDAO.createRoleIfNotFound("USER", 2L);
-                rolesSet.add(role_user);
-            }
-        }
-        user.setRoles(rolesSet);
-        userService.update(user);
-        return "redirect:/admin";
-    }*/
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") long id) {
