@@ -11,4 +11,5 @@ public interface RoleDAO {
     Role getById(Long id);
     Role getRoleByName(String rolename);
     Set<Role> getRoleSet();
+    Set<Role> getRoleSetForUser(String[] rolenames);
 }

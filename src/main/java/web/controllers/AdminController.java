@@ -74,20 +74,7 @@ public class AdminController {
         if (!password.isEmpty()) {
             user.setPassword(bCryptPasswordEncoder.encode(password));
         }
-        System.out.println(user);
-        System.out.println(roles);
-        Set<Role> rolesSet = new HashSet<>();
-        for (String st : roles) {
-            if (st.equals("ADMIN")) {
-                Role role_admin = roleDAO.getRoleByName("ADMIN");
-                rolesSet.add(role_admin);
-            }
-            if (st.equals("USER")) {
-                Role role_user = roleDAO.getRoleByName("USER");
-                rolesSet.add(role_user);
-            }
-        }
-        user.setRoles(rolesSet);
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
         userService.update(user);
         return "redirect:/admin";
     }
