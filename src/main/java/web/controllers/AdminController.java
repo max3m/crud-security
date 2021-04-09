@@ -72,7 +72,7 @@ public class AdminController {
         user.setAge(age);
         user.setEmail(email);
         if (!password.isEmpty()) {
-            user.setPassword(password);
+            user.setPassword(bCryptPasswordEncoder.encode(password));
         }
         System.out.println(user);
         System.out.println(roles);

@@ -10,14 +10,6 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/user")
 public class UsersController {
 
-    /*@GetMapping
-    public ModelAndView showCurrentUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user");
-        modelAndView.addObject("user", user);
-        return modelAndView;
-    }*/
     @GetMapping
     public String showUser(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
