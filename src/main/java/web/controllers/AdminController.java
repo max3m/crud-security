@@ -79,6 +79,41 @@ public class AdminController {
         Set<Role> rolesSet = new HashSet<>();
         for (String st : roles) {
             if (st.equals("ADMIN")) {
+                Role role_admin = roleDAO.getRoleByName("ADMIN");
+                rolesSet.add(role_admin);
+            }
+            if (st.equals("USER")) {
+                Role role_user = roleDAO.getRoleByName("USER");
+                rolesSet.add(role_user);
+            }
+        }
+        user.setRoles(rolesSet);
+        userService.update(user);
+        return "redirect:/admin";
+    }
+    /*@PatchMapping(value = "/{id}")
+    public String editUserPatch(
+            @ModelAttribute("id") Long id,
+            @ModelAttribute("username") String username,
+            @ModelAttribute("name") String name,
+            @ModelAttribute("password") String password,
+            @ModelAttribute("email") String email,
+            @ModelAttribute("age") byte age,
+            @RequestParam("roles") String[] roles
+    ) {
+        User user = userService.getById(id);
+        user.setName(username);
+        user.setName(name);
+        user.setAge(age);
+        user.setEmail(email);
+        if (!password.isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(password));
+        }
+        System.out.println(user);
+        System.out.println(roles);
+        Set<Role> rolesSet = new HashSet<>();
+        for (String st : roles) {
+            if (st.equals("ADMIN")) {
                 Role role_admin = roleDAO.createRoleIfNotFound("ADMIN", 1L);
                 rolesSet.add(role_admin);
             }
@@ -90,7 +125,7 @@ public class AdminController {
         user.setRoles(rolesSet);
         userService.update(user);
         return "redirect:/admin";
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") long id) {

@@ -1,6 +1,7 @@
 package web.dao;
 
 import web.model.Role;
+import web.model.User;
 
 import java.util.Set;
 
@@ -9,6 +10,5 @@ public interface RoleDAO {
     void delete(Role role);
     Role getById(Long id);
     Role getRoleByName(String rolename);
-    Role createRoleIfNotFound(String name, long id);
     Set<Role> getRoleSet();
 }

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -48,21 +49,13 @@ public class RoleDAOImpl implements RoleDAO {
         }
     }
 
-    @Override
-    public Role createRoleIfNotFound(String name, long id) {
-        Role role = getRoleByName(name);
-        if (role == null) {
-            role = new Role(id, name);
-            save(role);
-        }
-        return role;
-    }
-
     public Set<Role> getRoleSet() {
-        return new HashSet<Role>() {{
-            add(createRoleIfNotFound("ADMIN", 1L));
-            add(createRoleIfNotFound("USER", 2L));
-        }};
+        try{
+            return new HashSet<Role>(entityManager.createQuery("SELECT r FROM Role r", Role.class)
+                    .getResultList());
+        } catch (NoResultException ex){
+            return null;
+        }
     }
 
 }

@@ -7,7 +7,8 @@ import web.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -16,8 +17,8 @@ public class UserDAOImpl implements UserDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<User> allUsers() {
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+    public Set<User> allUsers() {
+        return new HashSet<User>(entityManager.createQuery("SELECT u FROM User u", User.class).getResultList());
     }
 
     @Override
