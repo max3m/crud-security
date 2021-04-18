@@ -22,6 +22,7 @@ public class User implements UserDetails {
     String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
+
     private Set<Role> roles;
 
     @Column

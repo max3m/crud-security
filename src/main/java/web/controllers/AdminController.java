@@ -42,9 +42,15 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping(value = "")
+    /*@PostMapping(value = "")
     public String newUserPost(@ModelAttribute("user") User user, HttpServletRequest req) {
         String[] selectedRoles = req.getParameterValues("roles");
+        userService.save(user, selectedRoles);
+        return "redirect:/admin";
+    }*/
+    @PostMapping(value = "")
+    public String newUserPost(@ModelAttribute("user") User user,
+                              @RequestParam("selectedRoles") String[] selectedRoles) {
         userService.save(user, selectedRoles);
         return "redirect:/admin";
     }
